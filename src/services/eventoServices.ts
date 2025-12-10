@@ -4,6 +4,23 @@ export const createEvento = async (data: IEvento) => {
   const ev = new Evento(data);
   return await ev.save();
 };
+
+export const joinEvento = async (eventId: string, userId: string) => {
+  return await Evento.findByIdAndUpdate(
+    eventId,
+    { $addToSet: { participants: userId } },
+    { new: true }
+  );
+};
+
+export const leaveEvento = async (eventId: string, userId: string) => {
+  return await Evento.findByIdAndUpdate(
+    eventId,
+    { $pull: { participants: userId } },
+    { new: true }
+  );
+};
+
 /*
 export const getAllEventos = async () => {
   return await Evento.find().sort({ createdAt: -1 });

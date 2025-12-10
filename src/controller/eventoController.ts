@@ -4,13 +4,39 @@ import {
   getAllEventos,
   getEventoById,
   updateEvento,
-  deleteEvento
+  deleteEvento,
+  joinEvento,
+  leaveEvento
 } from '../services/eventoServices';
 
 export const createEventoHandler = async (req: Request, res: Response) => {
   try {
     const data = await createEvento(req.body);
     res.json(data); // si quieres 201: res.status(201).json(data)
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const joinEventoHandler = async (req: Request, res: Response) => {
+  try {
+    const eventId = req.params.id;
+    const { userId } = req.body;
+    if (!userId) return res.status(400).json({ message: 'userId is required in body' });
+    const data = await joinEvento(eventId, userId);
+    res.json(data);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const leaveEventoHandler = async (req: Request, res: Response) => {
+  try {
+    const eventId = req.params.id;
+    const { userId } = req.body;
+    if (!userId) return res.status(400).json({ message: 'userId is required in body' });
+    const data = await leaveEvento(eventId, userId);
+    res.json(data);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

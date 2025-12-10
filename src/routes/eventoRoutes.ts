@@ -35,6 +35,9 @@ const router = Router();
  */
 router.post('/', eventoController.createEventoHandler);
 
+router.post('/:id/join', eventoController.joinEventoHandler);
+router.post('/:id/leave', eventoController.leaveEventoHandler);
+
 /**
  * @swagger
  * /event:
